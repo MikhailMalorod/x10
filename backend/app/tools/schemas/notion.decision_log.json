@@ -1,0 +1,119 @@
+{
+  "definition_id": "notion.decision_log",
+  "name": "Create Decision Log",
+  "description": "Создает страницу с журналом решений в Notion базе данных",
+  "json_schema": {
+    "type": "object",
+    "properties": {
+      "meeting_id": {
+        "type": "string",
+        "description": "Идентификатор встречи для идемпотентности"
+      },
+      "title": {
+        "type": "string",
+        "description": "Заголовок решения"
+      },
+      "alternatives": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "option": {
+              "type": "string",
+              "description": "Вариант решения"
+            },
+            "pros": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Преимущества"
+            },
+            "cons": {
+              "type": "array", 
+              "items": {"type": "string"},
+              "description": "Недостатки"
+            }
+          },
+          "required": ["option"]
+        },
+        "minItems": 2,
+        "description": "Рассмотренные альтернативы (минимум 2)"
+      },
+      "rationale": {
+        "type": "string",
+        "description": "Обоснование принятого решения"
+      },
+      "risks": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "risk": {
+              "type": "string",
+              "description": "Описание риска"
+            },
+            "impact": {
+              "type": "string",
+              "enum": ["low", "medium", "high"],
+              "description": "Уровень воздействия"
+            },
+            "probability": {
+              "type": "string",
+              "enum": ["low", "medium", "high"],
+              "description": "Вероятность"
+            },
+            "mitigation": {
+              "type": "string",
+              "description": "Меры по снижению риска"
+            }
+          },
+          "required": ["risk", "impact", "probability"]
+        },
+        "description": "Выявленные риски"
+      },
+      "decision": {
+        "type": "string",
+        "description": "Финальное принятое решение"
+      },
+      "participants": {
+        "type": "array",
+        "items": {"type": "string"},
+        "description": "Участники принятия решения"
+      },
+      "date": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Дата и время принятия решения"
+      }
+    },
+    "required": ["meeting_id", "title", "alternatives", "rationale", "decision"]
+  },
+  "returns": {
+    "type": "object",
+    "properties": {
+      "page_id": {
+        "type": "string",
+        "description": "ID созданной страницы в Notion"
+      },
+      "url": {
+        "type": "string",
+        "description": "URL страницы в Notion"
+      },
+      "status": {
+        "type": "string",
+        "enum": ["created", "updated"],
+        "description": "Статус операции"
+      }
+    }
+  },
+  "runtime_constraints": {
+    "timeout": 30,
+    "cpu_limit": "0.1",
+    "memory_limit": "128m",
+    "network_access": ["api.notion.com"]
+  },
+  "network_policy": {
+    "allowed_domains": ["api.notion.com"],
+    "required_headers": ["Authorization", "Notion-Version"]
+  },
+  "visibility": "ce"
+} 

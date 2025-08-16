@@ -1,0 +1,92 @@
+{
+  "definition_id": "notion.task",
+  "name": "Create Action Item",
+  "description": "Создает задачу в Notion базе данных на основе решений консилиума",
+  "json_schema": {
+    "type": "object",
+    "properties": {
+      "meeting_id": {
+        "type": "string",
+        "description": "Идентификатор встречи для связи с decision log"
+      },
+      "title": {
+        "type": "string",
+        "description": "Название задачи"
+      },
+      "description": {
+        "type": "string",
+        "description": "Подробное описание задачи"
+      },
+      "assignee": {
+        "type": "string",
+        "description": "Ответственный за выполнение"
+      },
+      "due_date": {
+        "type": "string",
+        "format": "date",
+        "description": "Срок выполнения"
+      },
+      "priority": {
+        "type": "string",
+        "enum": ["low", "medium", "high", "critical"],
+        "description": "Приоритет задачи"
+      },
+      "status": {
+        "type": "string",
+        "enum": ["not_started", "in_progress", "blocked", "completed"],
+        "default": "not_started",
+        "description": "Статус задачи"
+      },
+      "tags": {
+        "type": "array",
+        "items": {"type": "string"},
+        "description": "Теги для категоризации"
+      },
+      "dependencies": {
+        "type": "array",
+        "items": {"type": "string"},
+        "description": "Зависимости от других задач"
+      },
+      "estimated_hours": {
+        "type": "number",
+        "minimum": 0,
+        "description": "Оценка времени выполнения в часах"
+      },
+      "acceptance_criteria": {
+        "type": "array",
+        "items": {"type": "string"},
+        "description": "Критерии приемки"
+      }
+    },
+    "required": ["meeting_id", "title", "description", "assignee"]
+  },
+  "returns": {
+    "type": "object",
+    "properties": {
+      "task_id": {
+        "type": "string",
+        "description": "ID созданной задачи в Notion"
+      },
+      "url": {
+        "type": "string",
+        "description": "URL задачи в Notion"
+      },
+      "status": {
+        "type": "string",
+        "enum": ["created", "updated"],
+        "description": "Статус операции"
+      }
+    }
+  },
+  "runtime_constraints": {
+    "timeout": 20,
+    "cpu_limit": "0.1",
+    "memory_limit": "128m",
+    "network_access": ["api.notion.com"]
+  },
+  "network_policy": {
+    "allowed_domains": ["api.notion.com"],
+    "required_headers": ["Authorization", "Notion-Version"]
+  },
+  "visibility": "ce"
+} 

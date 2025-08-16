@@ -1,0 +1,52 @@
+# FastAPI и основные зависимости
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+pydantic==2.5.0
+pydantic-settings==2.1.0
+
+# AutoGen v0.7.2 (новая архитектура)
+autogen-agentchat==0.7.2
+autogen-core==0.7.2
+
+# Для интеграции с OpenAI
+autogen-ext[openai]==0.4.0
+
+# База данных
+sqlalchemy==2.0.23
+alembic==1.13.0
+psycopg2-binary==2.9.9
+
+# Redis
+redis==5.0.1
+
+# ChromaDB для RAG
+chromadb==0.4.18
+
+# HTTP клиенты для интеграций
+httpx==0.25.2
+aiohttp==3.9.1
+
+# Celery для очередей
+celery==5.3.4
+
+# Мониторинг и логирование
+opentelemetry-api==1.21.0
+opentelemetry-sdk==1.21.0
+opentelemetry-instrumentation-fastapi==0.42b0
+prometheus-client==0.19.0
+
+# Безопасность
+python-jose[cryptography]==3.3.0
+bcrypt==4.1.2
+
+# Утилиты
+python-multipart==0.0.6
+python-dotenv==1.0.0
+structlog==23.2.0
+
+# Для разработки
+pytest==7.4.3
+pytest-asyncio==0.21.1
+black==23.11.0
+isort==5.12.0
+mypy==1.7.1 
