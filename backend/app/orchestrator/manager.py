@@ -135,8 +135,8 @@ class XIOOrchestrator:
             logger.info(f"Сообщение от {message['agent_id']}: {message['content'][:50]}...")
             await asyncio.sleep(2)  # Имитация времени обдумывания
         
-        # Завершаем run
-        self._is_running = False
+        # НЕ завершаем run здесь - он должен оставаться активным для тестирования
+        # self._is_running = False
         logger.info(f"Консилиум завершен: {self._current_run_id}")
     
     async def pause_run(self) -> bool:
