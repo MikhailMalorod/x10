@@ -4,7 +4,7 @@
 
 from datetime import datetime
 from enum import Enum
-from typing import Optional, List, Dict, Any
+from typing import Optional, List, Dict, Any, Literal
 from pydantic import BaseModel, Field
 
 class MessageRole(str, Enum):
@@ -57,7 +57,7 @@ class Message(BaseModel):
 
 class DecisionMessage(Message):
     """Сообщение о принятии решения"""
-    type: MessageType = Field(MessageType.DECISION, const=True)
+    type: Literal[MessageType.DECISION] = MessageType.DECISION
     metadata: Dict[str, Any] = Field(..., description="Метаданные решения")
 
     class Config:
@@ -82,7 +82,7 @@ class DecisionMessage(Message):
 
 class TaskMessage(Message):
     """Сообщение о создании задачи"""
-    type: MessageType = Field(MessageType.TASK, const=True)
+    type: Literal[MessageType.TASK] = MessageType.TASK
     metadata: Dict[str, Any] = Field(..., description="Метаданные задачи")
 
     class Config:
@@ -107,7 +107,7 @@ class TaskMessage(Message):
 
 class ToolCallMessage(Message):
     """Сообщение о вызове инструмента"""
-    type: MessageType = Field(MessageType.TOOL_CALL, const=True)
+    type: Literal[MessageType.TOOL_CALL] = MessageType.TOOL_CALL
     metadata: Dict[str, Any] = Field(..., description="Метаданные вызова инструмента")
 
     class Config:

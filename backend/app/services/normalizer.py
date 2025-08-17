@@ -36,10 +36,10 @@ class ActionItemNormalizer:
     # Паттерны для извлечения сроков
     DEADLINE_PATTERNS = {
         r"до конца (дня|недели|месяца|года)": {
-            "день": lambda: datetime.now().replace(hour=23, minute=59, second=59),
-            "неделя": lambda: datetime.now() + timedelta(days=7),
-            "месяц": lambda: datetime.now() + timedelta(days=30),
-            "год": lambda: datetime.now().replace(month=12, day=31)
+            "дня": lambda: datetime.now().replace(hour=23, minute=59, second=59),
+            "недели": lambda: datetime.now() + timedelta(days=7),
+            "месяца": lambda: datetime.now() + timedelta(days=30),
+            "года": lambda: datetime.now().replace(month=12, day=31)
         },
         r"в течение (\d+)\s*(дней|недель|месяцев)": {
             "дней": lambda x: datetime.now() + timedelta(days=int(x)),
@@ -118,11 +118,17 @@ class ActionItemNormalizer:
                 groups = match.groups()
                 if len(groups) == 1:  # "до конца недели"
                     unit = groups[0].lower()
-                    return handlers[unit]()
+                    try:
+                        return handlers[unit]()
+                    except KeyError:
+                        continue
                 elif len(groups) == 2:  # "в течение 2 недель"
                     number, unit = groups
                     unit = unit.lower()
-                    return handlers[unit](number)
+                    try:
+                        return handlers[unit](number)
+                    except (KeyError, ValueError):
+                        continue
         return None
 
     def _calculate_confidence(self, task_text: str, context: str) -> float:
